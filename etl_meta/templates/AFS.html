@@ -1,0 +1,139 @@
+
+{% extends "base.html" %}
+{% block title %}Artefact File Sources{% endblock %}
+
+
+{% block content %}
+
+
+
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+          <button class="btn btn-primary" data-toggle="collapse" data-target="#AddAFS">Add Artefact File Source</button>
+          <div id="AddAFS" class="collapse">
+  					<form  >
+  					  <div class="form-group">
+                
+              <label class="control-label" for="SourceAlias">Name</label><input type="text" class="form-control" placeholder="Enter Name..." id="AFSSourceAlias" required>
+              <label  class="control-label" for="type">Type</label><input  type="text" class="form-control" placeholder="Enter Type..." id="AFStype">
+              <label  class="control-label" for="Location">Location</label><input  type="text" class="form-control" id="AFSLocation">
+              <label  class="control-label" for="AccountName">AccountName</label><input  type="text" class="form-control" id="AFSAccountName">
+              <label  class="control-label" for="ContainerName">ContainerName</label><input  type="text" class="form-control" id="AFSContainerName">
+              <label  class="control-label" for="Server">Server:</label><input  type="text" class="form-control" id="AFSServer">
+              <label  class="control-label" for="Port">Port</label><input   type="text" class="form-control" id="AFSPort">
+              <label class="control-label" for="Username">Username</label><input  type="text" class="form-control" id="AFSUsername">
+              <label class="control-label" for="Password">Password</label><input  type="text" class="form-control" id="AFSPassword">
+              <label class="control-label" for="IsInternal">IsInternal</label><input class="form-control" id="AFSIsInternal" type="checkbox"> 
+              <label class="control-label" for="AccountKey">AccountKey</label><input  type="text" class="form-control" id="AFSAccountKey">
+              
+                
+                </div>
+              
+  					  <button type="button" class="btn btn-success" id="AddAFSButton" onclick="addAFS()">Submit</button>
+              
+  					</form>
+  				</div>
+
+      </div>
+    </div>
+</div>
+
+<div class="panel-group">
+      <div class="panel panel-info">
+      <div class="panel-heading">
+        {% for afs in AFSList %}
+         <div class="panel panel-info">
+           <div class="panel-heading">
+            <h3 class="panel-title">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ afs['ArtefactFileSourceID'] }}" aria-expanded="true" >  {{ afs['DisplayName'] }}  </button>
+            </h3>
+          </div>
+          <div id={{ afs['ArtefactFileSourceID'] }} class="panel-collapse collapse">
+            <div class="container"><button class="btn btn-danger" onclick="deleteAFS('{{ afs['ArtefactFileSourceID']}}')">Delete</button>
+            <span><button class="btn btn-success" onclick="setAndOpenAFSModal('{{ afs['ArtefactFileSourceID']}}')">Edit</button> </span> </div>
+
+            
+            <div class="panel-body">
+             <div class="container">
+                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>                      
+                    </tr>
+                  </thead>
+                  <tbody>  
+                        {% for t in afs %}
+                            <tr>
+                              <td> {{ t }} </td>
+                              <td>{{ afs[t] }}</td>
+                            </tr>    
+                           {% endfor %}  
+                  </tbody>
+                </table>
+                </div>
+             </div>
+            </div>
+          </div>
+           {% endfor %}
+        
+        			
+			
+       </div>
+
+      </div>
+    </div>
+
+   <div id="UpdateAFSModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update AFS</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdAFSHiddenid">ID</label>
+               <input class="form-control" id="UpdAFSHiddenid" name="UpdAFSHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdAFSType">Type</label>
+               <input class="form-control" id="UpdAFSType" name="UpdAFSType" placeholder="" type="text" />
+               <label for="UpdAFSLocation">Location</label>
+               <input class="form-control" id="UpdAFSLocation" name="UpdAFSLocation" placeholder="" type="text" />
+               <label for="UpdAFSAccountName">AccountName</label>
+               <input class="form-control" id="UpdAFSAccountName" name="UpdAFSAccountName" placeholder="" type="text" />
+               <label for="UpdAFSContainerName">ContainerName</label>
+               <input class="form-control" id="UpdAFSContainerName" name="UpdAFSContainerName" placeholder="" type="text" />
+               <label for="UpdAFSServer">Server</label>
+               <input class="form-control" id="UpdAFSServer" name="UpdAFSServer" placeholder="" type="text" />
+               <label for="UpdAFSPort">Port</label>
+               <input class="form-control" id="UpdAFSPort" name="UpdAFSPort" placeholder="" type="text" />
+               <label for="UpdAFSUsername">Username</label>
+               <input class="form-control" id="UpdAFSUsername" name="UpdAFSUsername" placeholder="" type="text" />
+               <label for="UpdAFSIsInternal">IsInternal</label>
+               <input class="form-control" id="UpdAFSIsInternal" name="UpdAFSIsInternal" placeholder="" type="text" readonly />
+               <label for="UpdAFSSourceAlias">SourceAlias</label>
+               <input class="form-control" id="UpdAFSSourceAlias" name="UpdAFSSourceAlias" placeholder="" type="text" />
+               <label for="UpdAFSAccountKeyn">AccountKey</label>
+               <input class="form-control" id="UpdAFSAccountKey" name="UpdAFSAccountKeyn" placeholder="" type="text" readonly />
+               <label for="UpdAFSPassword">Password</label>
+               <input class="form-control" id="UpdAFSPassword" name="UpdAFSPassword" placeholder="" type="text" readonly/>
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateAFS()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+
+{% endblock %}
+
+

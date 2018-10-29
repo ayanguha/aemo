@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+
+{% block content %}
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">Data Management Console</h1>
+        <p>This is an  application to management data ingestion and transformation within Data Management in AEMO</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      </div>
+    </div>
+      
+      <div class="row">
+            
+            <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/adt.jpg') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">Data Types</h4>
+                    <p class="card-text">Define Data Types and their conversion to data lake.</p>
+                     <a href="{{ url_for('api.adtui_handler')}}" class="btn btn-primary">Details</a>
+                </div>
+               </div>
+            </div>
+
+            <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/aft.png') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">File Types</h4>
+                    <p class="card-text">Define Source and Target file types</p>
+                     <a href="{{ url_for('api.aftui_handler')}}" class="btn btn-primary">Details</a>
+                </div>
+               </div>
+            </div>
+
+            <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/process.png') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">Processes</h4>
+                    <p class="card-text">Define all supported processes</p>
+                     <a href="{{ url_for('api.process_ui_handler')}}" class="btn btn-primary">Details</a>
+                </div>
+               </div>
+            </div>
+
+       </div>
+       
+      <div class="row">
+
+           
+            <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/afs.png') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">File Sources</h4>
+                    <p class="card-text">Define All File Sources </p>
+                     <a href="{{ url_for('api.afsui_handler')}}" class="btn btn-primary">Details</a>
+                </div>
+               </div>
+             </div>
+
+           <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" src="{{ url_for('static', filename='img/ats.jpg') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">Table Sources</h4>
+                    <p class="card-text">Define All File Sources </p>
+                     <a href="{{ url_for('api.atsui_handler')}}" class="btn btn-primary">Details</a>
+                </div>
+               </div>
+            </div>
+
+      </div>
+      
+    
+
+      <div class="row">
+     
+           <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/lp.png') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">Load Plans</h4>
+                    <p class="card-text">Define supported loading patterns </p>
+                     <a href="{{ url_for('api.load_plan_ui_handler')}}" class="btn btn-primary">Details</a>
+                </div>
+               </div>
+            </div>
+
+           <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/artefact.jpg') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">Artefacts</h4>
+                    <p class="card-text">Define smallest unit of data ingestion and Transformations</p>
+                     <a href="{{ url_for('api.artefact_list_ui_handler')}}" class="btn btn-primary">Details</a>
+                </div>
+               </div>
+            </div>
+
+           <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                 <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/workflow.png') }}" alt="Card image cap">
+                   <div class="card-body">
+                     <h4 class="card-title">Workflow</h4>
+                      <p class="card-text">Define how each data asset is ingested</p>
+                      <a href="{{ url_for('api.process_wrapper_ui_handler')}}" class="btn btn-primary">Details</a>
+                   </div>
+                </div>
+            </div>
+    
+        
+      </div>
+     
+      <div class="row">
+
+           <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/monitoring.png') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">Monitoring</h4>
+                    <p class="card-text">MOnitoring</p>
+                     <a href="{{ url_for('api.monitoring_ui_handler')}}" class="btn btn-primary" disabled>Details</a>
+                </div>
+               </div>
+            </div>
+
+           <div class="col-md-4">
+               <div class="card border-primary" style="width: 18rem;">
+                <img class="card-img-top" style=" height: 5vw; object-fit: cover; " src="{{ url_for('static', filename='img/transformation.png') }}" alt="Card image cap">
+                 <div class="card-body">
+                   <h4 class="card-title">Transformation</h4>
+                    <p class="card-text">Comming Soon</p>
+                     <a href="#" class="btn btn-primary" disabled>Details</a>
+                </div>
+               </div>
+            </div>
+        
+
+        
+      </div>
+ 
+{% endblock %}

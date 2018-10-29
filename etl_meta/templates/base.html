@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+   
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/jquery-ui.min.css">
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
+<script src="/static/js/jquery.blockUI.min.js"></script>
+<link rel="stylesheet" href="/static/css/jumbotron.css">
+<link rel="stylesheet" href="/static/css/navbar-top-fixed.css">
+
+
+<script src="/static/js/bootstrap-table.min.js"></script>
+  <link rel="stylesheet" href="/static/css/bootstrap-table.min.css">
+
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-table-filter-control.css">
+<script src="/static/js/bootstrap-table-filter-control.js"></script>
+
+
+<title>{% block title %}{% endblock %} </title>
+
+<script type="text/javascript">
+
+
+
+
+
+var AFSURL = "{{ url_for('api.api/standing_artefact_file_source') }}";
+var SingleAFSURL = "{{ url_for('api.api/standing_single_artefact_file_source', ArtefactFileSourceID='PLACEHOLDER') }}";
+
+var ATSURL = "{{ url_for('api.api/standing_artefact_table_source') }}";
+var SingleATSURL = "{{ url_for('api.api/standing_single_artefact_table_source', ArtefactTableSourceID='PLACEHOLDER') }}";
+
+var ADTURL = "{{ url_for('api.api/standing_attribute_data_type') }}";
+var SingleADTURL = "{{ url_for('api.api/standing_single_attribute_data_type', AttributeDataTypeID='PLACEHOLDER') }}";
+
+var AFTURL = "{{ url_for('api.api/standing_artefact_file_type') }}";
+var SingleAFTURL = "{{ url_for('api.api/standing_single_artefact_file_type', ArtefactFileTypeID='PLACEHOLDER') }}";
+
+var ProcessURL =  "{{ url_for('api.api/standing_process') }}";
+var SingleProcessURL = "{{ url_for('api.api/standing_single_process', ProcessID='PLACEHOLDER') }}";
+
+
+var LoadPlanURL = "{{ url_for('api.api/standing_load_plan') }}";
+var SingleLoadPlanURL = "{{ url_for('api.api/standing_single_load_plan', LoadPlanID='PLACEHOLDER') }}";
+
+
+var ProcessGroupURL = "{{ url_for('api.api/standing_process_group') }}";
+var SingleProcessGroupURL = "{{ url_for('api.api/standing_single_process_group', ProcessGroupID='PLACEHOLDER') }}";
+
+var ProcessWrapperURL = "{{ url_for('api.api/standing_process_wrapper') }}";
+var SingleProcessWrapperURL = "{{ url_for('api.api/standing_single_process_wrapper', ProcessWrapperID='PLACEHOLDER') }}";
+
+
+var ArtefactTableURL = "{{ url_for('api.api/artefact_artefact_table') }}";
+var SingleArtefactTableURL = "{{ url_for('api.api/artefact_single_artefact_table', ArtefactTableID='PLACEHOLDER') }}";
+
+
+var ArtefactFileURL = "{{ url_for('api.api/artefact_artefact_file') }}";
+var SingleArtefactFileURL = "{{ url_for('api.api/artefact_single_artefact_file', ArtefactFileID='PLACEHOLDER') }}";
+
+var ArtefactAttributeURL = "{{ url_for('api.api/artefact_artefact_attribute') }}";
+var SingleArtefactAttributeURL = "{{ url_for('api.api/artefact_single_artefact_attribute', ArtefactAttributeID='PLACEHOLDER') }}";
+
+var SingleArtefactURL = "{{ url_for('api.api/artefact_single_artefact', ArtefactID='PLACEHOLDER') }}";
+
+</script>
+<script src="/static/js/standing.js"></script>
+<script src="/static/js/artefact.js"></script>
+<script src="/static/js/monitoring.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+
+  </head>
+
+  <body>
+
+     <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('api.ui_handler')}}">Data Management</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="{{ url_for('api.ui_handler')}}">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Foundation<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ url_for('api.afsui_handler')}}">File Source</a></li>
+                  <li><a href="{{ url_for('api.atsui_handler')}}">Table Source</a></li>
+                  <li><a href="{{ url_for('api.adtui_handler')}}">Data Type</a></li>
+                  <li><a href="{{ url_for('api.aftui_handler')}}">File Type</a></li>
+                  <li><a href="{{ url_for('api.process_ui_handler')}}">Process</a></li>
+                  <li><a href="{{ url_for('api.load_plan_ui_handler')}}">Load Plan</a></li>
+                  
+               </ul>
+              </li>
+             
+              <li><a href="{{ url_for('api.artefact_list_ui_handler')}}">Artefacts</a></li>
+               <li><a href="{{ url_for('api.process_wrapper_ui_handler')}}">Workflows</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active"><a href="{{ url_for('api.monitoring_ui_handler')}}">Monitoring<span class="sr-only">(current)</span></a></li>
+              
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+
+<div class="container-fluid width:1170px">
+ <div id="content">{% block content %}{% endblock %}</div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; AEMO 2018</p>
+      </footer>
+    
+  </div> <!-- /container -->
+
+   
+  </body>
+</html>

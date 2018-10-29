@@ -1,0 +1,379 @@
+
+{% extends "base.html" %}
+{% block title %}Artefact Details{% endblock %}
+
+
+{% block content %}
+
+<div class="panel panel-default">
+
+ 
+
+
+       
+       
+            
+             <div class="panel panel-default">
+               <div class="panel-heading">
+                 
+              <div id={{ ArtefactList['ArtefactID'] }} >
+                <div class="container"> 
+                    <button class="btn btn-success" onclick="setAndOpenArtefactModal('{{ ArtefactList['ArtefactID'] }}')">Edit</button> </div>
+            
+                          <div class="panel-body">
+                           <div class="container">
+                               
+                              <table class="table table-hover table-condensed table-striped">
+                                <thead class="thead-dark">
+                                  <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>                      
+                                  </tr>
+                                </thead class="thead-dark">
+                                <tbody>  
+                                       {% for t in ArtefactList %}
+                                          <tr>
+                                            <td> {{ t }} </td>
+                                            <td>{{ ArtefactList[t] }}</td>
+                                          </tr>    
+                                         {% endfor %}  
+                                </tbody>
+                              </table>
+                              </div>
+                           </div>
+
+                            {% for atls in ArtefactFileList %}
+                            <div class="panel panel-success">
+                                 <div class="panel-heading">
+                                  <h3 class="panel-title">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#F_{{ ArtefactList['ArtefactID'] }}_{{ atls['DisplayName']}}" aria-expanded="true" > {{ atls['LoadType']}} {{ atls['DisplayName']}}  </button>
+                                  </h3>
+                                 </div>
+                                 <div id=F_{{ ArtefactList['ArtefactID'] }}_{{ atls['DisplayName']}} class="panel-collapse collapse">
+                                   <div class="panel-body">
+                                     <div class="container">
+                                        <table class="table table-hover table-condensed table-striped">
+                                            <thead class="thead-dark">
+                                              <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>                      
+                                              </tr>
+                                            </thead class="thead-dark">
+                                      
+                                         
+                                            <tbody>  
+                                               {% for k in atls %}
+                                                  <tr>
+                                                     <td> {{ k }} </td>
+                                                     <td>{{ atls[k] }}</td>
+                                                  </tr>    
+                                               {% endfor %}  
+                                                  <tr>
+                                                     <td> <button class="btn btn-danger" onclick="deleteArtefactFile('{{ atls['ArtefactFileID'] }}')">Delete</button> </td>
+                                                     <td> <button class="btn btn-success" onclick="setAndOpenArtefactFileModal('{{ atls['ArtefactFileID'] }}')">Edit</button> </td>
+                                                  </tr>    
+                                            </tbody>
+                                         
+                                       
+                                          </table>
+                                          </div>
+                                       </div>
+                                  </div>
+                              </div>
+                              {% endfor %}  
+                                     
+
+                             
+
+                               {% for atls in ArtefactTableList %}
+
+                     <div class="panel panel-success">
+                                 <div class="panel-heading">
+                                  <h3 class="panel-title">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#T_{{ ArtefactList['ArtefactID'] }}_{{ atls['DisplayName']}}" aria-expanded="true" > {{ atls['Type']}} {{ atls['DisplayName']}} </button>
+                                  </h3>
+                                 </div>
+                                 <div id=T_{{ ArtefactList['ArtefactID'] }}_{{ atls['DisplayName']}} class="panel-collapse collapse">
+                                   <div class="panel-body">
+                                     <div class="container">
+                                        <table class="table table-hover table-condensed table-striped">
+                                            <thead class="thead-dark">
+                                              <tr>
+                                                <th>Key</th>
+                                                <th>Value</th>                      
+                                              </tr>
+                                            </thead class="thead-dark">
+                                     
+                                          
+                                            <tbody>  
+                                               {% for k in atls %}
+                                                  <tr>
+                                                     <td> {{ k }} </td>
+                                                     <td>{{ atls[k] }}</td>
+                                                  </tr>    
+                                               {% endfor %}  
+                                                  <tr>
+                                                     <td> <button class="btn btn-danger" onclick="deleteArtefactTable('{{ atls['ArtefactTableID'] }}')">Delete</button> </td>
+                                                     <td> <button class="btn btn-success" onclick="setAndOpenArtefactTableModal('{{ atls['ArtefactTableID'] }}')">Edit</button> </td>
+                                                  </tr>    
+                                            </tbody>
+                                         
+                                       
+                                          </table>
+                                          </div>
+                                       </div>
+                                  </div>
+                              </div>
+                            {% endfor %}  
+
+                              
+
+                           
+
+                              <div class="panel panel-success">
+                                 <div class="panel-heading">
+                                  <h3 class="panel-title">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#Attributes_{{ ArtefactList['ArtefactID'] }}" aria-expanded="true" >  Attributes </button>
+                                  </h3>
+                                 </div>
+                                 <div id=Attributes_{{ ArtefactList['ArtefactID'] }} class="panel-collapse collapse">
+                                   <div class="panel-body">
+                                     <div class="container">
+                                        <table class="table table-hover table-condensed table-striped">
+                                            <thead class="thead-dark">
+                                              <tr>
+                                                <th>ArtefactAttributeID</th>
+                                                <th>ArtefactID</th>
+                                                <th>AttributeDataTypeID</th>
+                                                <th>IsIdentifier</th>
+                                                <th>IsNullable</th>
+                                                <th>OrdinalPosition</th>
+                                                <th>TechnicalName</th>
+                                                <th>BusinessName</th>
+                                                <th>DataType</th>
+                                                <th>Precision</th>
+                                                <th>Scale</th>
+                                                <th>MaxLength</th>
+                                               
+                                                <th>Action</th>                       
+                                              </tr>
+                                            </thead class="thead-dark">
+                                      <tbody>  
+                                              {% for aa in ArtefactAttributes %}
+                                                 {% if aa['ArtefactID'] ==  ArtefactList['ArtefactID']  %}
+                                                    
+                                                      <tr>
+                                                       <td> {{ aa['ArtefactAttributeID'] }} </td>
+                                                       <td> {{ aa['ArtefactID'] }} </td>
+                                                       <td> {{ aa['AttributeDataTypeID'] }} </td>
+                                                       <td> {{ aa['IsIdentifier'] }} </td>
+                                                       <td> {{ aa['IsNullable'] }} </td>
+                                                       <td> {{ aa['OrdinalPosition'] }} </td>
+                                                       <td> {{ aa['TechnicalName'] }} </td>
+                                                       <td> {{ aa['BusinessName'] }} </td>
+                                                       <td> {{ aa['DataType'] }} </td>
+                                                       <td> {{ aa['Precision'] }} </td>
+                                                       <td> {{ aa['Scale'] }} </td>
+                                                       <td> {{ aa['MaxLength'] }} </td>
+                                                      
+                                                       
+
+                                                        <td> <div class="container"><button class="btn btn-danger" onclick="deleteArteAttribute('{{ aa['ArtefactAttributeID']}}')">Delete</button><span><button class="btn btn-success" onclick="setAndOpenArtefactAttributeModal('{{ aa['ArtefactAttributeID'] }}')">Edit</button> </span></div> </td>
+                                                      </tr>    
+                                                    
+                                                  {% endif %}
+                                                 {% endfor %} 
+                                            </tbody>
+                                          </table>
+                                          </div>
+                                       </div>
+                                  </div>
+                              </div>
+
+                     
+                    
+
+                          
+           </div>
+         </div>
+          
+
+      
+      
+
+   
+
+
+
+
+
+   <div id="UpdateArtefactModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Table Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdateArtefactHiddenid">ID</label>
+               <input class="form-control" id="UpdateArtefactHiddenid" name="UpdateArtefactHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdateArtefactCategory">Category</label>
+               <input class="form-control" id="UpdateArtefactCategory" name="UpdateArtefactCategory" placeholder="" type="text" />
+               <label for="UpdateArtefactDescription">Description</label>
+               <input class="form-control" id="UpdateArtefactDescription" name="UpdateArtefactDescription" placeholder="" type="text" />
+               <label for="UpdateArtefactBusinessDescription">BusinessDescription</label>
+               <input class="form-control" id="UpdateArtefactBusinessDescription" name="UpdateArtefactBusinessDescription" placeholder="" type="text" />
+               
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateArtefact()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+<div id="UpdateArtefactFileModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Table Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdateArtefactFileHiddenid">ID</label>
+               <input class="form-control" id="UpdateArtefactFileHiddenid" name="UpdateArtefactFileHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdateArtefactFileHeaderRowsToSkip">HeaderRowsToSkip</label>
+               <input class="form-control" id="UpdateArtefactFileHeaderRowsToSkip" name="UpdateArtefactFileHeaderRowsToSkip" placeholder="" type="text" />
+               <label for="UpdateArtefactFileFooterRowsToSkip">FooterRowsToSkip</label>
+               <input class="form-control" id="UpdateArtefactFileFooterRowsToSkip" name="UpdateArtefactFileFooterRowsToSkip" placeholder="" type="text" />
+               <label for="UpdateArtefactFileSplitThreshold">SplitThreshold</label>
+               <input class="form-control" id="UpdateArtefactFileSplitThreshold" name="UpdateArtefactFileSplitThreshold" placeholder="" type="text" />
+               <label for="UpdateArtefactFileRetentionPeriod">RetentionPeriod</label>
+               <input class="form-control" id="UpdateArtefactFileRetentionPeriod" name="UpdateArtefactFileRetentionPeriod" placeholder="" type="text" />
+               <label for="UpdateArtefactFileNamePattern">NamePattern</label>
+               <input class="form-control" id="UpdateArtefactFileNamePattern" name="UpdateArtefactFileNamePattern" placeholder="" type="text" />
+               <label for="UpdateArtefactFileName">Name</label>
+               <input class="form-control" id="UpdateArtefactFileName" name="UpdateArtefactFileName" placeholder="" type="text" />
+               <label for="UpdateArtefactFileIsCompressed">IsCompressed</label>
+               <select class="form-control" name="option"  id="UpdateArtefactFileIsCompressed">
+                       <option value=1 class="form-control" selected>Yes</option>
+                       <option value=0 class="form-control">No</option>
+                  </select class="form-control">
+               <div></div>
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateArtefactFile()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+<div id="UpdateArtefactAttributeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Attributes Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdateArtefactAttributeHiddenid">ID</label>
+               <input class="form-control" id="UpdateArtefactAttributeHiddenid" name="UpdateArtefactAttributeHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdateArtefactAttributeIsIdentifier">IsIdentifier</label>
+               <select class="form-control" name="option"  id="UpdateArtefactAttributeIsIdentifier">
+                       <option value=1 >Yes</option>
+                       <option value=0 >No</option>
+                  </select class="form-control">
+                 
+               <label for="UpdateArtefactAttributeIsNullable">IsNullable</label>
+               <select class="form-control" name="option"  id="UpdateArtefactAttributeIsNullable">
+                       <option value=1 >Yes</option>
+                       <option value=0 >No</option>
+                  </select class="form-control">
+               <div></div>
+               <label for="UpdateArtefactAttributeTechnicalName">TechnicalName</label>
+               <input class="form-control" id="UpdateArtefactAttributeTechnicalName" name="UpdateArtefactAttributeTechnicalName" placeholder="" type="text" />
+               <label for="UpdateArtefactAttributeBusinessName">BusinessName</label>
+               <input class="form-control" id="UpdateArtefactAttributeBusinessName" name="UpdateArtefactAttributeBusinessName" placeholder="" type="text" />
+               <label>Artefact Data Type:</label>
+                     <select class="form-control" name="option"  id="UpdateArtefactAttributeDataTypeID">
+                        {% for afs in ADTList %}
+                             <option value="{{ afs['AttributeDataTypeID'] }}" >{{ afs['DisplayName'] }}</option>
+                        {% endfor %}
+                     </select class="form-control">
+               
+               <label for="UpdateArtefactAttributePrecision">Precision</label>
+               <input class="form-control" id="UpdateArtefactAttributePrecision" name="UpdateArtefactAttributePrecision" placeholder="" type="text" />
+               <label for="UpdateArtefactAttributeScale">Scale</label>
+               <input class="form-control" id="UpdateArtefactAttributeScale" name="UpdateArtefactAttributeScale" placeholder="" type="text" />
+               <label for="UpdateArtefactAttributeMaxLength">MaxLength</label>
+               <input class="form-control" id="UpdateArtefactAttributeMaxLength" name="UpdateArtefactAttributeMaxLength" placeholder="" type="text" />
+               
+               
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateArtefactAttribute()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+<div id="UpdateArtefactTableModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Table Details</h4>
+        </div>
+        <div class="modal-body ">
+          <div class="form-group"  >
+               <label for="UpdateArtefactTableHiddenid">ID</label>
+               <input class="form-control" id="UpdateArtefactTableHiddenid" name="UpdateArtefactTableHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdateArtefactTableSchema">Schema</label>
+               <input class="form-control" id="UpdateArtefactTableSchema" name="UpdateArtefactTableSchema" placeholder="" type="text" />
+               <label for="UpdateArtefactTableName">Name</label>
+               <input class="form-control" id="UpdateArtefactTableName" name="UpdateArtefactTableName" placeholder="" type="text" />
+               <label for="UpdateArtefactTableFilterExpression">FilterExpression</label>
+               <input class="form-control" id="UpdateArtefactTableFilterExpression" name="UpdateArtefactTableFilterExpression" placeholder="" type="text" />
+               <label for="UpdateArtefactTableGroup">Group</label>
+               <input class="form-control" id="UpdateArtefactTableGroup" name="UpdateArtefactTableGroup" placeholder="" type="text" />
+               <div class="container"> <label> Target </label>
+                  <select class="form-control" name="option"  id="UpdArtefactTableSourcPolybaseeDropDown">
+                       {% for afs in ATSList %}
+                          <option value="{{ afs['ArtefactTableSourceID'] }}" >{{ afs['DisplayName'] }}</option>
+                       {% endfor %}
+                  </select class="form-control">
+               </div>
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateArtefactTable()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+
+{% extends "base.html" %}
+{% block title %}Monitoring{% endblock %}
+
+
+{% block content %}
+
+     <div class="container-fluid">                 
+      <table class="table table-hover table-striped"  
+             data-filter-control="select"
+             data-toggle="table"  
+             
+             data-search="true"   
+             data-pagination="true" 
+             data-page-size="25" 
+             data-pagination-V-Align="top">
+                  <thead>
+                    
+                    <tr>
+                      {% for t in BatchProcessArtefactList[0].keys() %}
+                      <th data-sortable="true" data-field={{ t }} > {{ t }}</th>
+                      {% endfor %}  
+                    </tr>
+                    
+                  </thead>
+                 <tbody>  
+               {% for afs in BatchProcessArtefactList %}         
+                            <tr class= {% if afs['Status'] == 'SUCCESS' %} "success" {% else %} {% if afs['Status'] == 'FAILURE' %}  "danger" {% else %} "info" {% endif %} {% endif %} >
+                              {% for t in afs %}
+                                
+                                    <td > {{ afs[t] }}</td>
+                               
+                              {% endfor %}  
+                            </tr>    
+                 {% endfor %}
+                  </tbody>
+                </table>
+             </div>
+                
+  
+
+{% endblock %}
+  
+

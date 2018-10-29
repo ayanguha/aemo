@@ -1,0 +1,114 @@
+
+{% extends "base.html" %}
+{% block title %}Data Types{% endblock %}
+
+
+{% block content %}
+
+ 
+
+<div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+
+          <button class="btn btn-primary" data-toggle="collapse" data-target="#AddADT">Add Artefact Data Type</button>
+          <div id="AddADT" class="collapse">
+            <form>
+              <div class="form-group">
+                <label for="type">DataTypeSQLServer:</label><input type="text" class="form-control" id="ADTDataTypeSQLServer">
+                <label for="type">DataTypeSybase:</label><input type="text" class="form-control" id="ADTDataTypeSybase">
+                <label for="type">DataTypeOracle:</label><input type="text" class="form-control" id="ADTDataTypeOracle">
+                <label for="type">DataTypePolybase:</label><input type="text" class="form-control" id="ADTDataTypePolybase">
+                <label for="type">DataTypeAzureSQLDW:</label><input type="text" class="form-control" id="ADTDataTypeAzureSQLDW">
+                <label for="type">DataTypeHive:</label><input type="text" class="form-control" id="ADTDataTypeHive">
+                </div>
+              <button type="button" class="btn btn-success" onclick="addADT()">Submit</button>
+            </form>
+          </div>
+
+      </div>
+    </div>
+</div>
+
+<div class="panel-group">
+      <div class="panel panel-info">
+      <div class="panel-heading">
+        {% for afs in ADTList %}
+         <div class="panel panel-info">
+           <div class="panel-heading">
+            <h3 class="panel-title">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ afs['AttributeDataTypeID'] }}" aria-expanded="true" >  {{ afs['DisplayName'] }}  </button>
+            </h3>
+          </div>
+          <div id={{ afs['AttributeDataTypeID'] }} class="panel-collapse collapse">
+            <div class="container"><button class="btn btn-danger" onclick="deleteADT('{{ afs['AttributeDataTypeID']}}')">Delete</button>
+              <span><button class="btn btn-success" onclick="setAndOpenADTModal('{{ afs['AttributeDataTypeID']}}')">Edit</button> </span></div>            
+            <div class="panel-body">
+             <div class="container">                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>                      
+                    </tr>
+                  </thead>
+                 <tbody>  
+                        {% for t in afs %}
+                            <tr>
+                              <td> {{ t }} </td>
+                              <td>{{ afs[t] }}</td>
+                            </tr>    
+                           {% endfor %}  
+                  </tbody>
+                </table>
+                 </div>
+             </div>
+            </div>
+          </div>
+           {% endfor %}
+                     
+        </div>
+      </div>
+    </div>
+
+
+<div id="UpdateADTModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update ADT</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdADTHiddenid">ID</label>
+               <input class="form-control" id="UpdADTHiddenid" name="UpdADTHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdADTDataTypeSQLServer">DataTypeSQLServer</label>
+               <input class="form-control" id="UpdADTDataTypeSQLServer" name="UpdADTDataTypeSQLServer" placeholder="" type="text" />
+               <label for="UpdADTDataTypeSybase">DataTypeSybase</label>
+               <input class="form-control" id="UpdADTDataTypeSybase" name="UpdADTDataTypeSybase" placeholder="" type="text" />
+               <label for="UpdADTDataTypeOracle">DataTypeOracle</label>
+               <input class="form-control" id="UpdADTDataTypeOracle" name="UpdADTDataTypeOracle" placeholder="" type="text" />
+               <label for="UpdADTDataTypePolybase">DataTypePolybase</label>
+               <input class="form-control" id="UpdADTDataTypePolybase" name="UpdADTDataTypePolybase" placeholder="" type="text" />
+               <label for="UpdADTDataTypeAzureSQLDW">DataTypeAzureSQLDW</label>
+               <input class="form-control" id="UpdADTDataTypeAzureSQLDW" name="UpdADTDataTypeAzureSQLDW" placeholder="" type="text" />
+               <label for="UpdADTDataTypeHive">DataTypeHive</label>
+               <input class="form-control" id="UpdADTDataTypeHive" name="UpdADTDataTypeHive" placeholder="" type="text" />
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateADT()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+
+{% endblock %}
+
+

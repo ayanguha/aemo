@@ -1,0 +1,179 @@
+
+{% extends "base.html" %}
+{% block title %}Process Wrappers{% endblock %}
+
+
+{% block content %}
+
+ <div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+
+          <button class="btn btn-primary" data-toggle="collapse" data-target="#AddOML">Add Orchestrator Master</button>
+          <div id="AddOML" class="collapse">
+            <form>
+              <div class="form-group">
+                <label for="type">Name:</label><input type="text" class="form-control" id="PWName">
+                 
+                </div>
+              <button type="button" class="btn btn-success" onclick="addProcessWrapper()">Submit</button>
+            </form>
+          </div>
+
+      </div>
+    </div>
+</div>
+
+
+     
+     
+        {% for afs in OrchestratorMasterList  %}
+
+         <div class="panel panel-success">
+           <div class="panel-heading">
+            <h3 class="panel-title">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ afs['ProcessWrapperID'] }}" aria-expanded="true" >  {{ afs['DisplayName'] }}  </button>
+            </h3>
+          </div>
+          <div id={{ afs['ProcessWrapperID'] }} class="panel-collapse collapse">
+            <div class="container"><button class="btn btn-danger" onclick="deleteProcessWarapper('{{ afs['ProcessWrapperID']}}')">Delete</button>
+              <span><button class="btn btn-success" onclick="setAndOpenProcessWrapperModal('{{ afs['ProcessWrapperID']}}')">Edit</button> </span></div>
+            <div class="panel-body">
+             <div class="container">                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>                      
+                    </tr>
+                  </thead>
+                 <tbody>  
+                        {% for t in afs %}
+                            <tr>
+                              <td> {{ t }} </td>
+                              <td>{{ afs[t] }}</td>
+                            </tr>    
+                           {% endfor %}  
+                  </tbody>
+                </table>
+                 </div>
+             </div>
+
+      {% for ol in OrchestratorList  %}
+        {% if afs['ProcessWrapperID'] == ol['ParentProcessWrapperID'] %}
+         
+         <div class="panel panel-info">
+           <div class="panel-heading">
+            <h3 class="panel-title">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ ol['ProcessWrapperID'] }}" aria-expanded="true" >  {{ ol['DisplayName'] }}  </button>
+            </h3>
+          </div>
+          <div id={{ ol['ProcessWrapperID'] }} class="panel-collapse collapse">
+            <div class="container"><button class="btn btn-danger" onclick="deleteProcessWarapper('{{ ol['ProcessWrapperID']}}')">Delete</button>
+              <span><button class="btn btn-success" onclick="setAndOpenProcessWrapperModal('{{ ol['ProcessWrapperID']}}')">Edit</button> </span></div>
+            <div class="panel-body">
+             <div class="container">                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>                      
+                    </tr>
+                  </thead>
+                 <tbody>  
+                        {% for o in ol %}
+                            <tr>
+                              <td> {{ o }} </td>
+                              <td>{{ ol[o] }}</td>
+                            </tr>    
+                           {% endfor %}  
+                  </tbody>
+                </table>
+                 </div>
+             </div>
+
+                    {% for leaf in OrchestratorList  %}
+                    {% if ol['ProcessWrapperID'] == leaf['ParentProcessWrapperID'] %}
+                     
+                     <div class="panel panel-danger">
+                       <div class="panel-heading">
+                        <h3 class="panel-title">
+                          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ leaf['ProcessWrapperID'] }}" aria-expanded="true" >  {{ leaf['DisplayName'] }}  </button>
+                        </h3>
+                      </div>
+                      <div id={{ leaf['ProcessWrapperID'] }} class="panel-collapse collapse">
+                        <div class="container"><button class="btn btn-danger" onclick="deleteProcessWarapper('{{ leaf['ProcessWrapperID']}}')">Delete</button>
+                          <span><button class="btn btn-success" onclick="setAndOpenProcessWrapperModal('{{ leaf['ProcessWrapperID']}}')">Edit</button> </span></div>
+                        <div class="panel-body">
+                         <div class="container">                 
+                            <table class="table table-hover">
+                              <thead>
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Name</th>                      
+                                </tr>
+                              </thead>
+                             <tbody>  
+                                    {% for l in leaf %}
+                                        <tr>
+                                          <td> {{ l }} </td>
+                                          <td>{{ leaf[l] }}</td>
+                                        </tr>    
+                                       {% endfor %}  
+                              </tbody>
+                            </table>
+                             </div>
+                         </div>
+
+                        </div>
+                      </div>
+              
+                    {% endif %}
+                   {% endfor %}
+            </div>
+          </div>
+  
+        {% endif %}
+       {% endfor %}
+
+            </div>
+
+
+        
+       
+          </div>
+     {% endfor %}
+
+
+ <div id="UpdatePWModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Process Wrapper</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdPWHiddenid">ID</label>
+               <input class="form-control" id="UpdPWHiddenid" name="UpdPWHiddenid" placeholder="" type="text" readonly/>
+               <label for="UpdPWName">Name</label>
+               <input class="form-control" id="UpdPWName" name="UpdPWName" placeholder="" type="text"  />
+              
+               
+              
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateProcessWrapper()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+

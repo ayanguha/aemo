@@ -1,0 +1,268 @@
+
+{% extends "base.html" %}
+{% block title %}Load Plans{% endblock %}
+
+
+{% block content %}
+
+
+
+
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+          <button class="btn btn-primary" data-toggle="collapse" data-target="#AddLP">Add Load Plan</button>
+          <div id="AddLP" class="collapse">
+            <form  >
+              <div class="form-group">
+                
+              <label class="control-label" for="Name">Name</label><input type="text" class="form-control" placeholder="Enter Name..." id="LPName" required>
+              <label  class="control-label" for="type">Type</label><input  type="text" class="form-control" placeholder="Enter Type..." id="LPType">
+              <label  class="control-label" for="Category">Category</label><input  type="text" class="form-control" id="LPCategory">
+              <label  class="control-label" for="Description">Description</label><input  type="text" class="form-control" id="LPDescription">
+                
+                </div>
+              
+              <button type="button" class="btn btn-success" id="AddLPButton" onclick="addLP()">Submit</button>
+              
+            </form>
+          </div>
+
+      </div>
+    </div>
+</div>
+
+
+        {% for afs in LPList %}
+         <div class="panel panel-info">
+           <div class="panel-heading">
+            <h3 class="panel-title">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ afs['LoadPlanID'] }}" aria-expanded="true" >  {{ afs['DisplayName'] }}  </button>
+            </h3>
+          </div>
+          <div id={{ afs['LoadPlanID'] }} class="panel-collapse collapse">
+            <div class="container"><button class="btn btn-danger" onclick="deleteLP('{{ afs['LoadPlanID']}}')">Delete</button>
+            <span><button class="btn btn-success" onclick="setAndOpenLPModal('{{ afs['LoadPlanID']}}')">Edit</button> </span> </div>
+
+            
+            <div class="panel-body">
+             <div class="container">
+                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>                      
+                    </tr>
+                  </thead>
+                  <tbody>  
+                        {% for t in afs %}
+                            <tr>
+                              <td> {{ t }} </td>
+                              <td>{{ afs[t] }}</td>
+                            </tr>    
+                           {% endfor %}  
+                  </tbody>
+                </table>
+                </div>
+             </div>
+
+ <div class="panel panel-info">
+
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+
+          <button class="btn btn-primary" data-toggle="collapse" data-target="#AddPG_{{ afs['LoadPlanID'] }}">Add Process Groups</button>
+          <div id="AddPG_{{ afs['LoadPlanID'] }}" class="collapse">
+            <form  >
+              <div class="form-group">
+                
+              <label class="control-label" for="Name">Name</label><input type="text" class="form-control" placeholder="Enter Name..." id="PGName_{{ afs['LoadPlanID'] }}" required>
+              <label  class="control-label" for="Description">Description</label><input  type="text" class="form-control" placeholder="Enter Description..." id="PGDescription_{{ afs['LoadPlanID'] }}">
+              
+
+              <div class="container"> <label>Process</label>
+                  <select class="form-control" name="option"  id="PGProcessDropDown_{{ afs['LoadPlanID'] }}">
+                     {% for afs in ProcessList %}
+                         <option value="{{ afs['ProcessID'] }}" >{{ afs['DisplayName'] }}</option>
+                              {% endfor %}
+                  </select class="form-control">
+              </div>
+
+              <div class="container"> <label>Source File</label>
+                  <select class="form-control" name="option"  id="PGSourceArtefactFileSourceID_{{ afs['LoadPlanID'] }}">
+                     {% for afs in AFSList %}
+                         <option></option>
+                         <option value="{{ afs['ArtefactFileSourceID'] }}" >{{ afs['DisplayName'] }}</option>
+                              {% endfor %}
+                  </select class="form-control">
+              </div>
+              
+              <div class="container"> <label>Source Table</label>
+                  <select class="form-control" name="option"  id="PGSourceArtefactTableSourceID_{{ afs['LoadPlanID'] }}">
+                     {% for afs in ATSList %}
+                         <option></option>
+                         <option value="{{ afs['ArtefactTableSourceID'] }}" >{{ afs['DisplayName'] }}</option>
+                              {% endfor %}
+                  </select class="form-control">
+              </div>
+
+              <div class="container"> <label>Target File</label>
+                  <select class="form-control" name="option"  id="PGTargetArtefactFileSourceID_{{ afs['LoadPlanID'] }}">
+                     {% for afs in AFSList %}
+                         <option></option>
+                         <option value="{{ afs['ArtefactFileSourceID'] }}" >{{ afs['DisplayName'] }}</option>
+                              {% endfor %}
+                  </select class="form-control">
+              </div>
+
+                <div class="container"> <label>Target Table</label>
+                  <select class="form-control" name="option"  id="PGTargetArtefactTableSourceID_{{ afs['LoadPlanID'] }}">
+                     {% for afs in ATSList %}
+                         <option></option>
+                         <option value="{{ afs['ArtefactTableSourceID'] }}" >{{ afs['DisplayName'] }}</option>
+                              {% endfor %}
+                  </select class="form-control">
+              </div>
+             
+                
+                <div class="container"> <label>OrderOfExecution</label>
+                  <select class="form-control" name="option"  id="PGOrderOfExecution_{{ afs['LoadPlanID'] }}">
+                     {% for k in range(1,101) %}
+
+                         <option value="{{ k }}" >{{ k }}</option>
+                              {% endfor %}
+                  </select class="form-control">
+              </div>
+
+                </div>
+              
+              <button type="button" class="btn btn-success" id="AddPGButton" onclick="addPG('{{ afs['LoadPlanID'] }}')">Submit</button>
+              
+            </form>
+          </div>
+
+      </div>
+    </div>
+
+             <div class="panel-body">
+             <div class="container">
+                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Order Of Execution</th>
+                      <th>Name</th> 
+                      <th>Description</th> 
+                      <th>Process Id</th>
+                      <th>SourceArtefactFileSourceID</th>    
+                      <th>SourceArtefactTableSourceID</th> 
+                      <th>TargetArtefactFileSourceID</th> 
+                      <th>TargetArtefactTableSourceID</th> 
+                      <th>Action</th>                   
+                    </tr>
+                  </thead>
+                  <tbody>  
+                        {% for pgl in PGList %}
+                          {% if afs['LoadPlanID'] == pgl['LoadPlanID'] %}
+                            <tr>
+                              <td>{{ pgl['OrderOfExecution'] }} </td>
+                              <td>{{ pgl['Name'] }}</td>
+                              <td>{{ pgl['Description'] }}</td>
+                              <td>{{ pgl['ProcessID'] }}</td>
+                              <td>{{ pgl['SourceArtefactFileSourceID'] }}</td>
+                              <td>{{ pgl['SourceArtefactTableSourceID'] }}</td>
+                              <td>{{ pgl['TargetArtefactFileSourceID'] }}</td>
+                              <td>{{ pgl['TargetArtefactTableSourceID'] }}</td>
+                              
+                              <td><div class="container"><button class="btn btn-danger" onclick="deletePG('{{ pgl['ProcessGroupID'] }}')">Delete</button>
+                   <span><button class="btn btn-success" onclick="setAndOpenPGModal('{{ pgl['ProcessGroupID'] }}')">Edit</button> </span>
+                  </div></td>
+                            </tr>   
+                            {% endif %} 
+                           {% endfor %}  
+                          
+                  </tbody>
+                </table>
+                </div>
+             </div>
+         </div>
+         </div>
+          </div>
+           </div>
+ 
+           {% endfor %}
+
+<div id="UpdateLPModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update LP</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdLPHiddenid">ID</label>
+               <input class="form-control" id="UpdLPHiddenid" name="UpdLPHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdLPType">Type</label>
+               <input class="form-control" id="UpdLPType" name="UpdLPType" placeholder="" type="text" />
+               <label for="UpdLPName">Name</label>
+               <input class="form-control" id="UpdLPName" name="UpdLPName" placeholder="" type="text" />
+               <label for="UpdLPCategory">Category</label>
+               <input class="form-control" id="UpdLPCategory" name="UpdLPCategory" placeholder="" type="text" />
+               <label for="UpdLPDescription">Description</label>
+               <input class="form-control" id="UpdLPDescription" name="UpdLPDescription" placeholder="" type="text" />
+              
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateLP()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="UpdatePGModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Process Group</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdPGHiddenid">ID</label>
+               <input class="form-control" id="UpdPGHiddenid" name="UpdPGHiddenid" placeholder="" type="text" readonly/>
+               <label for="UpdPGName">Name</label>
+               <input class="form-control" id="UpdPGName" name="UpdPGName" placeholder="" type="text"  />
+              
+               <label for="UpdPGDescription">Description</label><input class="form-control" id="UpdPGDescription" name="UpdPGDescription" placeholder="" type="text" />
+               <select class="form-control" name="option"  id="UpdPGOrderOfExecution">
+                     {% for k in range(100) %}
+                         <option value="{{ k }}" >{{ k }}</option>
+                              {% endfor %}
+                  </select class="form-control">
+              
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updatePG()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+
+{% endblock %}
+
+

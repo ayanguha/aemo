@@ -1,0 +1,114 @@
+
+{% extends "base.html" %}
+{% block title %}Processes{% endblock %}
+
+
+{% block content %}
+
+<div class="panel panel-info">
+
+  <div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+
+          <button class="btn btn-primary" data-toggle="collapse" data-target="#AddProcess">Add Process</button>
+          <div id="AddProcess" class="collapse">
+            <form>
+              <div class="form-group">
+                <label for="type">Name:</label><input type="text" class="form-control" id="ProcessName">
+                <label for="type">Description:</label><input type="text" class="form-control" id="ProcessDescription">
+                <label for="type">Type:</label><input type="text" class="form-control" id="ProcessType">
+                <label for="type">RollbackType:</label><input type="text" class="form-control" id="ProcessRollbackType">
+                
+                </div>
+              <button type="button" class="btn btn-success" onclick="addProcess()">Submit</button>
+            </form>
+          </div>
+
+      </div>
+    </div>
+</div>
+
+<div class="panel-group">
+      <div class="panel panel-info">
+      <div class="panel-heading">
+        {% for afs in ProcessList %}
+         <div class="panel panel-info">
+           <div class="panel-heading">
+            <h3 class="panel-title">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ afs['ProcessID'] }}" aria-expanded="true" >  {{ afs['DisplayName'] }}  </button>
+            </h3>
+          </div>
+          <div id={{ afs['ProcessID'] }} class="panel-collapse collapse">
+            <div class="container"><button class="btn btn-danger" onclick="deleteProcess('{{ afs['ProcessID']}}')">Delete</button>
+              <span><button class="btn btn-success" onclick="setAndOpenProcessModal('{{ afs['ProcessID']}}')">Edit</button> </span></div>
+            <div class="panel-body">
+             <div class="container">                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>                      
+                    </tr>
+                  </thead>
+                 <tbody>  
+                        {% for t in afs %}
+                            <tr>
+                              <td> {{ t }} </td>
+                              <td>{{ afs[t] }}</td>
+                            </tr>    
+                           {% endfor %}  
+                  </tbody>
+                </table>
+                 </div>
+             </div>
+            </div>
+          </div>
+           {% endfor %}
+        
+              
+      
+       </div>
+
+      </div>
+    </div>
+
+    </div>
+
+
+ <div id="UpdateProcessModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Process</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdProcessHiddenid">ID</label>
+               <input class="form-control" id="UpdProcessHiddenid" name="UpdProcessHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdProcessType">Type</label>
+               <input class="form-control" id="UpdProcessType" name="UpdProcessType" placeholder="" type="text" />
+               <label for="UpdProcessName">Name</label>
+               <input class="form-control" id="UpdProcessName" name="UpdProcessName" placeholder="" type="text" />
+               <label for="UpdProcessDescription">Description</label>
+               <input class="form-control" id="UpdProcessDescription" name="UpdProcessDescription" placeholder="" type="text" />
+               <label for="UpdProcessRollbackType">RollbackType</label>
+               <input class="form-control" id="UpdProcessRollbackType" name="UpdProcessRollbackType" placeholder="" type="text" />
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateProcess()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+
+{% endblock %}
+
+

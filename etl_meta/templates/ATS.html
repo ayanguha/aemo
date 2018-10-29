@@ -1,0 +1,156 @@
+
+{% extends "base.html" %}
+{% block title %}Artefact Table Sources{% endblock %}
+
+
+{% block content %}
+
+  <div class="panel-group">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+
+          <button class="btn btn-primary" data-toggle="collapse" data-target="#AddATS">Add Artefact Table Source</button>
+          <div id="AddATS" class="collapse">
+            <form>
+              <div class="form-group">
+                <label class="control-label" for="SourceAlias">Name</label><input type="text" class="form-control" placeholder="Enter Name..." id="ATSSourceAlias" required>
+                <label for="type">Type:</label><input type="text" class="form-control" id="ATStype">
+                <label for="type">Server:</label><input type="text" class="form-control" id="ATSServer">
+                <label for="type">Port:</label><input type="text" class="form-control" id="ATSPort">
+                <label for="type">Database:</label><input type="text" class="form-control" id="ATSDatabase">
+                <label for="type">ServiceName:</label><input type="text" class="form-control" id="ATSServiceName">
+                <label for="type">SID:</label><input type="text" class="form-control" id="ATSSID">
+                <label for="type">Schema:</label><input type="text" class="form-control" id="ATSSchema">
+                <label for="Username">Username:</label><input type="text" class="form-control" id="ATSUsername">
+                
+                <label for="Username">ExternalDataSource:</label><input type="text" class="form-control" id="ATSExternalDataSource">
+                <label for="Username">ExternalFileFormat:</label><input type="text" class="form-control" id="ATSExternalFileFormat">
+                
+                <label for="Location">Location:</label><input type="text" class="form-control" id="ATSLocation">
+                <label for="AccountName">AccountName:</label><input type="text" class="form-control" id="ATSAccountName">
+                <label for="ContainerName">ContainerName:</label><input type="text" class="form-control" id="ATSContainerName">
+                <label class="control-label" for="IsInternal">IsInternal</label><input class="form-control" id="ATSIsInternal" type="checkbox"> 
+                <label for="AccountKey">AccountKey:</label><input type="text" class="form-control" id="ATSAccountKey">
+                <label for="Password">Password:</label><input type="text" class="form-control" id="ATSPassword">                
+                <label for="Password">GROUP:</label><input type="text" class="form-control" id="ATSGROUP">
+                </div>
+              <button type="button" class="btn btn-success" onclick="addATS()">Submit</button>
+            </form>
+          </div>
+
+      </div>
+    </div>
+</div>
+
+<div class="panel-group">
+      <div class="panel panel-info">
+      <div class="panel-heading">
+        {% for afs in ATSList %}
+         <div class="panel panel-info">
+           <div class="panel-heading">
+            <h3 class="panel-title">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{ afs['ArtefactTableSourceID'] }}" aria-expanded="true" >  {{ afs['DisplayName'] }}  </button>
+            </h3>
+          </div>
+          <div id={{ afs['ArtefactTableSourceID'] }} class="panel-collapse collapse">
+            <div class="container"><button class="btn btn-danger" onclick="deleteATS('{{ afs['ArtefactTableSourceID']}}')">Delete</button>
+              <span><button class="btn btn-success" onclick="setAndOpenATSModal('{{ afs['ArtefactTableSourceID']}}')">Edit</button> </span> </div>
+
+            
+            <div class="panel-body">
+             <div class="container">
+                 
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Value</th>                      
+                    </tr>
+                  </thead>
+                 <tbody>  
+                        {% for t in afs %}
+                            <tr>
+                              <td> {{ t }} </td>
+                              <td>{{ afs[t] }}</td>
+                            </tr>    
+                           {% endfor %}  
+                  </tbody>
+                </table>
+                 </div>
+             </div>
+            </div>
+          </div>
+           {% endfor %}
+        
+              
+      
+       </div>
+
+      </div>
+    </div>
+
+   
+   <div id="UpdateATSModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update ATS</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group"  >
+               <label for="UpdATSHiddenid">ID</label>
+               <input class="form-control" id="UpdATSHiddenid" name="UpdATSHiddenid" placeholder="" type="text" readonly />
+               <label for="UpdATSType">Type</label>
+               <input class="form-control" id="UpdATSType" name="UpdATSType" placeholder="" type="text" />
+               <label for="UpdATSServer">Server</label>
+               <input class="form-control" id="UpdATSServer" name="UpdATSServer" placeholder="" type="text" />
+               <label for="UpdATSPort">Port</label>
+               <input class="form-control" id="UpdATSPort" name="UpdATSPort" placeholder="" type="text" />
+               <label for="UpdATSDatabase">Database</label>
+               <input class="form-control" id="UpdATSDatabase" name="UpdATSDatabase" placeholder="" type="text" />
+               <label for="UpdATSServiceName">ServiceName</label>
+               <input class="form-control" id="UpdATSServiceName" name="UpdATSServiceName" placeholder="" type="text" />
+               <label for="UpdATSSID">SID</label>
+               <input class="form-control" id="UpdATSSID" name="UpdATSSID" placeholder="" type="text" />
+               <label for="UpdATSSchema">Schema</label>
+               <input class="form-control" id="UpdATSSchema" name="UpdATSSchema" placeholder="" type="text" />
+               <label for="UpdATSDUsername">Username</label>
+               <input class="form-control" id="UpdATSDUsername" name="UpdATSDUsername" placeholder="" type="text" />
+               <label for="UpdATSExternalDataSource">ExternalDataSource</label>
+               <input class="form-control" id="UpdATSExternalDataSource" name="UpdATSExternalDataSource" placeholder="" type="text" />
+               <label for="UpdATSExternalFileFormat">ExternalFileFormat</label>
+               <input class="form-control" id="UpdATSExternalFileFormat" name="UpdATSExternalFileFormat" placeholder="" type="text" />
+               <label for="UpdATSLocation">Location</label>
+               <input class="form-control" id="UpdATSLocation" name="UpdATSLocation" placeholder="" type="text" />
+               <label for="UpdATSAccountName">AccountName</label>
+               <input class="form-control" id="UpdATSAccountName" name="UpdATSAccountName" placeholder="" type="text" />
+               <label for="UpdATSContainerName">ContainerName</label>
+               <input class="form-control" id="UpdATSContainerName" name="UpdATSContainerName" placeholder="" type="text" />
+               <label for="UpdATSIsInternal">IsInternal</label>
+               <input class="form-control" id="UpdATSIsInternal" name="UpdATSIsInternal" placeholder="" type="text" />
+               <label for="UpdATSAccountKey">AccountKey</label>
+               <input class="form-control" id="UpdATSAccountKey" name="UpdATSAccountKey" placeholder="" type="text" readonly/>
+               <label for="UpdATSPassword">Password</label>
+               <input class="form-control" id="UpdATSPassword" name="UpdATSPassword" placeholder="" type="text" readonly/>
+               <label for="UpdATSSourceAlias">SourceAlias</label>
+               <input class="form-control" id="UpdATSSourceAlias" name="UpdATSSourceAlias" placeholder="" type="text" />
+               <label for="UpdATSGROUP">GROUP</label>
+               <input class="form-control" id="UpdATSGROUP" name="UpdATSGROUP" placeholder="" type="text" />
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="updateATS()">Save changes</button>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+
+{% endblock %}
+
+
